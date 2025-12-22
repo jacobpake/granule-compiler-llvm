@@ -58,18 +58,20 @@ import Language.Granule.Syntax.Span
 import Language.Granule.Syntax.Identifiers
 import Language.Granule.Syntax.FirstParameter
 import Data.Either (lefts, rights)
-import Data.List (transpose, intercalate)
+import Data.List (transpose)
 import GHC.Generics
+
+import qualified Prettyprinter as P
 
 data NormalisedAST v a =
     NormalisedAST [DataDecl] [FunctionDef v a] [ValueDef v a]
 
 instance (Pretty a) => Pretty (NormalisedAST a v) where
-    pretty (NormalisedAST dataDecls functionDefs valueDefs) =
+    wlpretty (NormalisedAST dataDecls functionDefs valueDefs) =
         pretty' dataDecls <> "\n\n" <> pretty' functionDefs <> pretty' valueDefs
         where
-            pretty' :: Pretty l => [l] -> String
-            pretty' = intercalate "\n\n" . map pretty
+            pretty' :: Pretty l => [l] -> P.Doc Annotation
+            pretty' = mconcat . P.punctuate "\n\n" . map wlpretty
 
 deriving instance (Show a, Show v) => Show (NormalisedAST v a)
 deriving instance (Eq a, Eq v) => Eq (NormalisedAST v a)
@@ -96,12 +98,12 @@ deriving instance (Show a, Show v) => Show (FunctionDef v a)
 deriving instance (Eq a, Eq v) => Eq (FunctionDef v a)
 
 instance (Pretty v) => Pretty (ValueDef v a) where
-    pretty (ValueDef _ v e t) = pretty v <> " : " <> pretty t <> "\n" <>
-                                   pretty v <> " = " <> pretty e
+    wlpretty (ValueDef _ v e t) = wlpretty v <> " : " <> wlpretty t <> "\n" <>
+                                   wlpretty v <> " = " <> wlpretty e
 
 instance Pretty v => Pretty (FunctionDef v a) where
-    pretty (FunctionDef _ v e ps t) = pretty v <> " : " <> pretty t <> "\n" <>
-                                         pretty v <> " " <> pretty ps <> "= " <> pretty e
+    wlpretty (FunctionDef _ v e ps t) = wlpretty v <> " : " <> wlpretty t <> "\n" <>
+                                         wlpretty v <> " " <> wlpretty ps <> "= " <> wlpretty e
 
 instance FirstParameter (ValueDef v a) Span
 

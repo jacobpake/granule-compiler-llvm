@@ -1,4 +1,4 @@
-resolver: lts-20.26
+resolver: lts-21.25 # 9.4.8
 
 packages:
 - '.'
@@ -6,21 +6,25 @@ packages:
 extra-deps:
 - ConfigFile-1.1.4
 - git: https://github.com/jacobpake/llvm-hs-12
-  commit: b684d4a1da9e017c98c6f4e67f08e3bd724473e9
+  commit: a2554f70f2b2126f2b4586813dea2e4b48ef5aaf
   subdirs:
   - llvm-hs-pure
   - llvm-hs
 - text-replace-0.1.0.3
-- sbv-9.0
-- syz-0.2.0.0@sha256:7307acb8f6ae7720e7e235c974281ecee912703c1394ebcac19caf83d70bb492,2345
-- git: https://github.com/granule-project/granule
-  commit: bcf2365a1358028d8e723c8444800168a67953ce # 0.9.6.0
-  subdirs:
-  - frontend
+- sbv-9.2
+- syz-0.2.0.0
+- git: https://github.com/jacobpake/granule
+  commit: 739e37f353f86537f3ce318205c3769408cdf9b8
 - git: https://github.com/jackohughes/haskell-src-exts
   commit: 5c2647fa0746bdac046897f5a6b7e4f5ef3afa79
+- lsp-types-2.3.0.1
+- lsp-2.7.0.1
+- optparse-applicative-0.19.0.0
+- criterion-1.6.4.1
 
-
+allow-newer: true
+allow-newer-deps:
+- text-replace
 
 # Override default flag values for local packages and extra-deps
 flags: {}

@@ -35,7 +35,7 @@ import System.FilePath.Posix (takeBaseName)
 import System.Process (callProcess)
 import "Glob" System.FilePath.Glob (glob)
 import Options.Applicative
-import Options.Applicative.Help.Pretty (string)
+import qualified Options.Applicative.Help.Pretty as OA
 
 import LLVM.Target
 import LLVM.Module
@@ -240,7 +240,7 @@ getGrCommandLineArgs = customExecParser (prefs disambiguate) parseGrConfig
 
 parseGrConfig :: ParserInfo ([FilePath], GrConfig)
 parseGrConfig = info (go <**> helper) $ briefDesc
-    <> (headerDoc . Just . string . unlines)
+    <> (headerDoc . Just . OA.pretty . unlines)
             [ "The Granule LLVM Compiler"
             , "version: "     <> showVersion version
             , "branch: "      <> $(gitBranch)

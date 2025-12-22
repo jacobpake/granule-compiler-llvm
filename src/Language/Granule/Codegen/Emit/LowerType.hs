@@ -44,7 +44,7 @@ llvmType (TyCon (MkId "()")) =
 llvmType (TyApp (TyApp (TyCon (MkId "Ref")) _) ty) =
   ptr $ StructureType False [llvmType ty]
 -- rather than ignore as below we might use this in future
-llvmType (TyApp (TyApp (TyCon (MkId "Rename")) _) ty) = llvmType ty
+llvmType (TyApp (TyApp (TyApp (TyCon (MkId "Rename")) _) _) ty) = llvmType ty
 llvmType (TyCon (MkId "Int")) = i32
 llvmType (TyCon (MkId "Float")) = double
 llvmType (TyCon (MkId "Char")) = i8
